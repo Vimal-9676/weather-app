@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weatherly</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .app {
+            width: 420px;
+            padding: 40px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        form {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 70%;
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        button {
+            width: 25%;
+            border: none;
+            border-radius: 12px;
+            background: #00c6ff;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #0072ff;
+            transform: translateY(-2px);
+        }
+
+        .weather {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .city {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .temperature {
+            font-size: 60px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .description {
+            text-transform: capitalize;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .detail-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .error {
+            margin-top: 15px;
+            text-align: center;
+            color: #ff8c8c;
+        }
+
+        img {
+            width: 100px;
+        }
+
+        @media (max-width: 480px) {
+            .app {
+                width: 90%;
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <div class="title">🌤 Weatherly</div>
+
+    <form method="POST">
+        <input type="text" name="city" placeholder="Search city..." required>
+        <button type="submit">Go</button>
+    </form>
+
+    {% if weather %}
+    <div class="weather">
+        <div class="city">{{ weather.city }}</div>
+
+        <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png">
+
+        <div class="temperature">{{ weather.temperature }}°C</div>
+        <div class="description">{{ weather.description }}</div>
+
+        <div class="details">
+            <div class="detail-box">
+                🌡 Feels Like <br>
+                <strong>{{ weather.feels_like }}°C</strong>
+            </div>
+            <div class="detail-box">
+                💧 Humidity <br>
+                <strong>{{ weather.humidity }}%</strong>
+            </div>
+            <div class="detail-box">
+                🌬 Wind <br>
+                <strong>{{ weather.wind }} m/s</strong>
+            </div>
+            <div class="detail-box">
+                📊 Pressure <br>
+                <strong>{{ weather.pressure }} hPa</strong>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+</div>
+
+</body>
+</html>
